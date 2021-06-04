@@ -1,4 +1,4 @@
-import { draw } from "./scripts/board"
+import { draw } from "./scripts/animator"
 
 
 
