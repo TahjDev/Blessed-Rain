@@ -9,7 +9,8 @@ const allFrameSets = {
     },
     left: {
         idleLeft: [3, 4, 5],
-        jumpLeft: [9, 10, 11]
+        jumpLeft: [9, 10, 11],
+        runLeft: [19, 20, 21, 22, 23, 24, 25]
     },
 }
 
@@ -62,6 +63,12 @@ const runningRight = () => {
             player = new Player(allFrameSets.right.runRight)
         }
     } 
+    else if (rightpressed && idle == false && lastpressed == "left") {
+        velocity_x = -20
+        lastpressed = "right"
+        // rightpressed = false
+        player = new Player(allFrameSets.right.runRight)
+    }
 }
 
 const jumping = () => {
@@ -93,16 +100,22 @@ const jumping = () => {
 }
 
 const runningLeft = () => {
-    if (leftpressed && idle === true) {
+    if (leftpressed && idle == true ) {
         idle = false
-        velocity_x = -20
+        velocity_x = -25
         lastpressed = "left"
         // rightpressed = false
-        player = new Player(allFrameSets.right.runRight)
+        player = new Player(allFrameSets.left.runLeft)
         if (uppressed) {
-            player = new Player(allFrameSets.run.runRight)
+            player = new Player(allFrameSets.left.runLeft)
         }
     } 
+    else if (leftpressed && idle == false && lastpressed == "right") {
+        velocity_x = -25
+        lastpressed = "left"
+        // rightpressed = false
+        player = new Player(allFrameSets.left.runLeft)
+    }
 }
 
 export const draw = () => {
@@ -132,11 +145,12 @@ export const draw = () => {
     img.onload = () => {
         // player.updateAnimation
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.drawImage(img, frame.x, frame.y, frame.width, frame.height, x, y, 80, 100)
-        // ctx.drawImage(img, 120, 212, 55, 70, x, y, 80, 100)
-        // ctx.drawImage(img, 272, 133, 55, 70, x, y, 80, 100)
-        // ctx.drawImage(img, 62, 212, 55, 70, x, y, 80, 100)
         // ctx.drawImage(img, frame.x, frame.y, frame.width, frame.height, x, y, 80, 100)
+        ctx.drawImage(img, 283, 292, 55, 70, x, y, 80, 100)
+        ctx.drawImage(img, 0, 380, 100, 70, x, y, 140, 100)
+        ctx.drawImage(img, 128, 384, 100, 70, x, y, 140, 100)
+        ctx.drawImage(img, 227, 382, 100, 70, x, y, 140, 100)
+      
         
     }
         // gravity
@@ -151,8 +165,8 @@ export const draw = () => {
          // collision control
 
         //  moving right and left
-    if (leftpressed) x += velocity_x
-    if (rightpressed) x += velocity_x
+    if (leftpressed && rightpressed === false) x += velocity_x
+    if (rightpressed && leftpressed === false) x += velocity_x
     if (uppressed && y === canvas.height-100) {
         y -=80
 

@@ -4,13 +4,13 @@ import { frames } from "./frames"
 
 
 class Player { 
-    constructor(frameSet, delay) {
+    constructor(frameSet, mode = "loop") {
             this.count = 0
             this.delay = 1
             this.frameIndex = 0
             this.frameSet = frameSet
             this.frameValue = frameSet[0]
-            this.mode = "loop"
+            this.mode = mode
         
     }
 
@@ -18,19 +18,32 @@ class Player {
         return this.frameValue
     }
 
-    changeFrameSet(frameset, mode, delay = 10, frame_index) {
-
-    }
-
     animate() {
         switch (this.mode) {
             case "loop":
                 this.loop()
                 break;
+            case "play":
+                this.play()
+                "break"
             case "pause":
                 break;
 
         }
+    }
+
+    play() {
+        this.count ++
+
+        this.frameIndex++
+
+        if (this.count > this.frameSet.length - 1) {
+            return null 
+        }  
+        else {
+            this.frameValue[this.frameIndex]
+        }
+        
     }
 
     loop() {

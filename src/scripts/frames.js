@@ -27,7 +27,6 @@ export const frames = [
     new Frame(40, 70, 55, 70), new Frame(40, 70, 55, 70), new Frame(40, 70, 55, 70), //6 jump right
     new Frame(280, 70, 55, 70), new Frame(280, 70, 55, 70), new Frame(280, 70, 55, 70), //9 jump right
     new Frame(100, 133, 55, 70), new Frame(164, 133, 55, 70), new Frame(225, 133, 55, 70), new Frame(285, 133, 55, 70), new Frame(335, 133, 55, 70), new Frame(0, 212, 55, 70), new Frame(62, 212, 55, 70), //12 runnning right
-    new Frame(272, 212, 55, 70), new Frame(280, 70, 55, 70), new Frame(280, 70, 55, 70), //19 runnning left
-
-
+    new Frame(115, 212, 55, 70), new Frame(170, 212, 55, 70), new Frame(225, 212, 55, 70), new Frame(277, 212, 55, 70), new Frame(325, 212, 55, 70), new Frame(4, 292, 55, 70), new Frame(75, 292, 55, 70),
+    new Frame(283, 292, 55, 70), new Frame(0, 380, 100, 70), new Frame(128, 384, 100, 70,), new Frame(227, 382, 55, 70)   //26 basic attack right
 ]
