@@ -5,7 +5,8 @@ const allFrameSets = {
     right: {
         idleRight: [0, 1, 2],
         jumpRight: [6, 7, 8],
-        runRight: [12, 13, 14, 15, 16, 17, 18]
+        runRight: [12, 13, 14, 15, 16, 17, 18],
+        basicAR: [26, 27, 28, 29]
     },
     left: {
         idleLeft: [3, 4, 5],
@@ -20,18 +21,20 @@ const ctx = canvas.getContext("2d");
 
 let x = 50;
 let y = canvas.height - 100;
-let velocity_x = 0
-let velocity_y = 0
+let velocity_x = 0;
+let velocity_y = 0;
 
 let rightpressed = false;
 
 let leftpressed = false;
 
-let lastpressed = false
+let lastpressed = false;
 
-let uppressed = false
+let uppressed = false;
 
-let idle = true
+let idle = true;
+
+let basicAttackRight = false;
 
 
 let player = new Player(allFrameSets.right.idleRight)
@@ -118,6 +121,19 @@ const runningLeft = () => {
     }
 }
 
+const basicAttackingRight = () => {
+        
+    if (basicAttackRight && idle == true) {
+        lastpressed = "attack"
+        idle = false
+        // velocity_x = -100
+        player = new Player(allFrameSets.right.basicAR)
+
+    }
+
+    
+}
+
 export const draw = () => {
 
     setIdle()
@@ -130,6 +146,8 @@ export const draw = () => {
   
     //running and looking left
     runningLeft()
+
+    basicAttackingRight()
     
  
     console.log(player.frameValue)
@@ -145,11 +163,11 @@ export const draw = () => {
     img.onload = () => {
         // player.updateAnimation
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        // ctx.drawImage(img, frame.x, frame.y, frame.width, frame.height, x, y, 80, 100)
-        ctx.drawImage(img, 283, 292, 55, 70, x, y, 80, 100)
-        ctx.drawImage(img, 0, 380, 100, 70, x, y, 140, 100)
-        ctx.drawImage(img, 128, 384, 100, 70, x, y, 140, 100)
-        ctx.drawImage(img, 227, 382, 100, 70, x, y, 140, 100)
+        // ctx.drawImage(img, frame.x, frame.y, frame.width, frame.height, x, y, frame.canvasWidth, frame.canvasHeight)
+        ctx.drawImage(img, 310, 388, 60, 70, x, y, 80, 100)
+        ctx.drawImage(img, 4, 470, 100, 70, x, y, 140, 100)
+        // ctx.drawImage(img, 135, 384, 100, 70, x, y, 140, 100)
+        // ctx.drawImage(img, 233, 382, 100, 70, x, y, 140, 100)
       
         
     }
@@ -180,7 +198,6 @@ const keyDownHandler = (e) => {
     
     if (e.key == "Right" || e.key == "ArrowRight") {
         rightpressed = true
-        velocity_x = 20
        
     }
     else if ((e.key == "Up" || e.key == "ArrowUp") && (uppressed === false)) {
@@ -189,7 +206,11 @@ const keyDownHandler = (e) => {
     }
     else if (e.key == "Left" || e.key == "ArrowLeft") {
         leftpressed = true
-        velocity_x = -20
+    }
+
+    else if (e.key == "a" || e.key == "KeyA") {
+        basicAttackRight = true
+
     }
 
     
@@ -209,6 +230,12 @@ const keyUpHandler = (e) => {
         velocity_x = 0
         leftpressed = false
     }
+    else if (e.key == "a" || e.key === "KeyA") {
+        basicAttackRight = false
+        setTimeout(() => lastpressed = false, 400)
+    }
+
+    
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
