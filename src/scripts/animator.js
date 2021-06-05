@@ -40,6 +40,7 @@ let basicAttack = false;
 
 let player = new Player(allFrameSets.right.idleRight)
 
+
 const setIdle = () => {
     if (velocity_x === 0 && lastpressed == "right" && idle === false && basicAttack == false)  {
         idle = true
@@ -61,6 +62,10 @@ const runningRight = () => {
         player = new Player(allFrameSets.right.runRight)
         if (uppressed) {
             player = new Player(allFrameSets.right.runRight)
+        }
+        if (basicAttack) {
+            rightpressed = false
+            player = new Player(allFrameSets.right.basicAR)
         }
     } 
     else if (rightpressed && idle == false && lastpressed == "left") {
@@ -163,12 +168,12 @@ export const draw = () => {
     let frame = frames[player.frameValue]
         // starts animation
     player.updateAnimation()
-
+        
     img.onload = () => {
         // player.updateAnimation
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.drawImage(img, frame.x, frame.y, frame.width, frame.height, x, y, frame.canvasWidth, frame.canvasHeight)
-        // ctx.drawImage(img, 98, 467, 120, 70, x, y, 160, 100)
+        ctx.drawImage(img, frame.x, frame.y, frame.width, frame.height, x, y -= frame.offset, frame.canvasWidth, frame.canvasHeight)
+        ctx.drawImage(img, -33, 540, 120, 100, x - 15, y - 15, 160, 120)
         // ctx.drawImage(img, 2, 467, 76, 72, x, y, 96, 100)
         // ctx.drawImage(img, 199, 467, 100, 70, x, y, 140, 100)
         // ctx.drawImage(img, 297, 467, 100, 70, x, y, 140, 100)
@@ -214,6 +219,7 @@ const keyDownHandler = (e) => {
 
     else if (e.key == "a" || e.key == "KeyA") {
         basicAttack = true
+        
 
     }
 
