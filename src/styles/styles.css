@@ -1,5 +1,41 @@
-#game-canvas {
-    background-color: green;
-    /* margin: auto; */
-    margin-left: 20%;
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    color: aliceblue;
+
 }
+
+.how-to {
+    width: 60px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+
+}
+
+.how-to:hover {
+    position: relative;
+}
+.instructions {
+    position: absolute;
+    font-size: 10px;
+    width: 300px;
+    display: none;
+}
+
+.how-to:hover .instructions {
+    display: block;
+}
+
+body {
+     background-image:url('../images/blessed-rain.gif'); 
+     background-repeat:repeat; 
+     font-family: 'Press Start 2P', cursive; 
+    }
+
+.title {
+     display: flex;
+     justify-content: center;
+     color: aliceblue;
+}
+

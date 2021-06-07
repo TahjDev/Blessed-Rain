@@ -18,6 +18,10 @@ class Player {
         return this.frameValue
     }
 
+    frameSetlength (){
+        return this.frameSet.length
+    }
+
     animate() {
         switch (this.mode) {
             case "loop":
@@ -32,19 +36,6 @@ class Player {
         }
     }
 
-    play() {
-        this.count ++
-
-        this.frameIndex++
-
-        if (this.count > this.frameSet.length - 1) {
-            return null 
-        }  
-        else {
-            this.frameValue[this.frameIndex]
-        }
-        
-    }
 
     loop() {
         this.count++
@@ -58,6 +49,10 @@ class Player {
 
     
         
+    }
+
+    count() {
+        return this.count
     }
 
     updateAnimation() {

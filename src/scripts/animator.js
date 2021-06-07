@@ -6,13 +6,15 @@ const allFrameSets = {
         idleRight: [0, 1, 2],
         jumpRight: [6, 7, 8],
         runRight: [12, 13, 14, 15, 16, 17, 18],
-        basicAR: [26, 27, 28, 29]
+        basicAR: [26, 27, 28, 29],
+        specialAR: [34, 35, 36, 37, 38, 39]
     },
     left: {
         idleLeft: [3, 4, 5],
         jumpLeft: [9, 10, 11],
         runLeft: [19, 20, 21, 22, 23, 24, 25],
-        basicAL: [30, 31, 32, 33]
+        basicAL: [30, 31, 32, 33],
+        specialAL: [40, 41, 42, 43, 44, 45]
     },
 }
 
@@ -37,16 +39,20 @@ let idle = true;
 
 let basicAttack = false;
 
+let specialAttack = false;
+let then;
+let specialPos;
+
 
 let player = new Player(allFrameSets.right.idleRight)
 
 
 const setIdle = () => {
-    if (velocity_x === 0 && lastpressed == "right" && idle === false && basicAttack == false)  {
+    if (velocity_x === 0 && lastpressed == "right" && idle === false && !basicAttack && !specialAttack )  {
         idle = true
         player = new Player(allFrameSets.right.idleRight)
     }
-    else if (velocity_x === 0 && lastpressed == "left" && idle === false && basicAttack == false) {
+    else if (velocity_x === 0 && lastpressed == "left" && idle === false && !basicAttack && !specialAttack ) {
         idle = true
         player = new Player(allFrameSets.left.idleLeft)
     }
@@ -60,13 +66,7 @@ const runningRight = () => {
         lastpressed = "right"
         // rightpressed = false
         player = new Player(allFrameSets.right.runRight)
-        if (uppressed) {
-            player = new Player(allFrameSets.right.runRight)
-        }
-        if (basicAttack) {
-            rightpressed = false
-            player = new Player(allFrameSets.right.basicAR)
-        }
+        
     } 
     else if (rightpressed && idle == false && lastpressed == "left") {
         velocity_x = -20
@@ -104,6 +104,8 @@ const jumping = () => {
 
 }
 
+
+
 const runningLeft = () => {
     if (leftpressed && idle == true ) {
         idle = false
@@ -111,9 +113,6 @@ const runningLeft = () => {
         lastpressed = "left"
         // rightpressed = false
         player = new Player(allFrameSets.left.runLeft)
-        if (uppressed) {
-            player = new Player(allFrameSets.left.runLeft)
-        }
     } 
     else if (leftpressed && idle == false && lastpressed == "right") {
         velocity_x = -25
@@ -128,7 +127,7 @@ const basicAttacking = () => {
     if (basicAttack && idle == true && lastpressed == "left") {
         // basicAttack = false
         lastpressed = "left"
-
+        console.log(idle)
         idle = false
         player = new Player(allFrameSets.left.basicAL)
 
@@ -136,6 +135,7 @@ const basicAttacking = () => {
     else if (basicAttack && idle == true && (lastpressed == "right") ) {
         // basicAttack = false
         lastpressed = "right"
+
         idle = false
         player = new Player(allFrameSets.right.basicAR)
     }
@@ -143,8 +143,28 @@ const basicAttacking = () => {
     
 }
 
-export const draw = () => {
+const specialAttacking = () => {
+    if (specialAttack && idle == true && lastpressed == "left") {
+         
+        lastpressed = "left"
+        console.log(idle)
+        idle = false
+        player = new Player(allFrameSets.left.specialAL)
+        then = Date.now()
+        
+    }
+    else if (specialAttack && idle == true && (lastpressed == "right")) {
+        // basicAttack = false
+        lastpressed = "right"
+        idle = false
+        then = Date.now()
+        player = new Player(allFrameSets.right.specialAR)
+    }
 
+}
+
+export const draw = () => {
+    
     setIdle()
 
     //running and looking right
@@ -157,47 +177,71 @@ export const draw = () => {
     runningLeft()
 
     basicAttacking()
+
+    specialAttacking()
+
+   
+    
     
  
     console.log(player.frameValue)
     // drawing the player 
-    let img = new Image();
 
-    img.src = "src/images/tanjiro_sprite.png";
+    let backgroundImg = new Image;
+    backgroundImg.src = "src/images/Background.png"
+    let playerImg = new Image();
+
+    playerImg.src = "src/images/tanjiro_sprite.png";
         // picks the correct number of frames
     let frame = frames[player.frameValue]
         // starts animation
     player.updateAnimation()
-        
-    img.onload = () => {
+    
+    // lastpressed === "left" ? specialPos = (x - frame.offsetX + 50) : specialPos = (x - frame.offsetX - 50) 
+    playerImg.onload = () => {
         // player.updateAnimation
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.drawImage(img, frame.x, frame.y, frame.width, frame.height, x, y -= frame.offset, frame.canvasWidth, frame.canvasHeight)
-        ctx.drawImage(img, -33, 540, 120, 100, x - 15, y - 15, 160, 120)
-        // ctx.drawImage(img, 2, 467, 76, 72, x, y, 96, 100)
-        // ctx.drawImage(img, 199, 467, 100, 70, x, y, 140, 100)
-        // ctx.drawImage(img, 297, 467, 100, 70, x, y, 140, 100)
-      
+        ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height)
+        ctx.drawImage(playerImg, frame.x, frame.y, frame.width, frame.height, x - frame.offsetX, y - frame.offsetY, frame.canvasWidth, frame.canvasHeight)
+        
+
+        
         
     }
+
         // gravity
         y += 25 
         
         // collision control
     if (x + 2 > canvas.width - 80) (x = canvas.width - 80)
 
+    if (specialAttack && lastpressed === "right") ( x += 50)
+    if (specialAttack && lastpressed === "left") ( x -= 50)
+
     if (x - 2 < 0) (x = 0)
 
-    if (y + 8 > canvas.height - 100 ) y = canvas.height-100
+    if (y + 8 > canvas.height - 120 ) y = canvas.height - 120
          // collision control
 
         //  moving right and left
-    if (leftpressed && rightpressed === false) x += velocity_x
-    if (rightpressed && leftpressed === false) x += velocity_x
-    if (uppressed && y === canvas.height-100) {
+    if (leftpressed || rightpressed) x += velocity_x
+    // if (rightpressed && leftpressed === false) x += velocity_x
+    if (uppressed && y === canvas.height-120) {
         y -=80
 
     }
+    let time;
+    // console.log(specialPos)
+    // console.log(specialCount)
+    // console.log(player.frameSetlength())
+    // console.log(player.count)
+    console.log("framevalue")
+    console.log(player.frameValue)
+  
+
+
+
+       
             //  moving right and left
 }
 
@@ -220,6 +264,10 @@ const keyDownHandler = (e) => {
     else if (e.key == "a" || e.key == "KeyA") {
         basicAttack = true
         
+    }
+
+    else if (e.key == "s" || e.key == "KeyS") {
+        specialAttack = true
 
     }
 
@@ -246,6 +294,10 @@ const keyUpHandler = (e) => {
     //    setTimeout(() => lastpressed = facing, 100)
     }
 
+    else if (e.key == "s" || e.key == "KeyS") {
+        specialAttack = false
+
+    }
     
 }
 
