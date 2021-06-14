@@ -1,5 +1,5 @@
-import Player from "./player"
-import { frames } from "./frames"
+import FrameHandler from "./frame_handler"
+import { frames } from "./player_frames"
 
 const allFrameSets = {
     right: {
@@ -44,17 +44,17 @@ let then;
 let specialPos;
 
 
-let player = new Player(allFrameSets.right.idleRight)
+let player = new FrameHandler(allFrameSets.right.idleRight)
 
 
 const setIdle = () => {
     if (velocity_x === 0 && lastpressed == "right" && idle === false && !basicAttack && !specialAttack )  {
         idle = true
-        player = new Player(allFrameSets.right.idleRight)
+        player = new FrameHandler(allFrameSets.right.idleRight)
     }
     else if (velocity_x === 0 && lastpressed == "left" && idle === false && !basicAttack && !specialAttack ) {
         idle = true
-        player = new Player(allFrameSets.left.idleLeft)
+        player = new FrameHandler(allFrameSets.left.idleLeft)
     }
 }
 
@@ -62,17 +62,17 @@ const runningRight = () => {
    
     if (rightpressed && idle === true) {
         idle = false
-        velocity_x = 20
+        velocity_x = 30
         lastpressed = "right"
         // rightpressed = false
-        player = new Player(allFrameSets.right.runRight)
+        player = new FrameHandler(allFrameSets.right.runRight)
         
     } 
     else if (rightpressed && idle == false && lastpressed == "left") {
-        velocity_x = -20
+        velocity_x = -30
         lastpressed = "right"
         // rightpressed = false
-        player = new Player(allFrameSets.right.runRight)
+        player = new FrameHandler(allFrameSets.right.runRight)
     }
 }
 
@@ -80,12 +80,12 @@ const jumping = () => {
     if (uppressed ) {
         idle = false
         // uppressed = false
-        player = lastpressed === "left" ? new Player(allFrameSets.left.jumpLeft) : new Player(allFrameSets.right.jumpRight)
+        player = lastpressed === "left" ? new FrameHandler(allFrameSets.left.jumpLeft) : new FrameHandler(allFrameSets.right.jumpRight)
 
         if (y <= canvas.height - 100) {
             setTimeout(() => {
                idle = true
-            player = lastpressed === "left" ? new Player(allFrameSets.left.idleLeft) : new Player(allFrameSets.right.idleRight)
+            player = lastpressed === "left" ? new FrameHandler(allFrameSets.left.idleLeft) : new FrameHandler(allFrameSets.right.idleRight)
 
             }
                 , 100)
@@ -109,16 +109,16 @@ const jumping = () => {
 const runningLeft = () => {
     if (leftpressed && idle == true ) {
         idle = false
-        velocity_x = -25
+        velocity_x = -30
         lastpressed = "left"
         // rightpressed = false
-        player = new Player(allFrameSets.left.runLeft)
+        player = new FrameHandler(allFrameSets.left.runLeft)
     } 
     else if (leftpressed && idle == false && lastpressed == "right") {
-        velocity_x = -25
+        velocity_x = -30
         lastpressed = "left"
         // rightpressed = false
-        player = new Player(allFrameSets.left.runLeft)
+        player = new FrameHandler(allFrameSets.left.runLeft)
     }
 }
 
@@ -129,7 +129,7 @@ const basicAttacking = () => {
         lastpressed = "left"
         console.log(idle)
         idle = false
-        player = new Player(allFrameSets.left.basicAL)
+        player = new FrameHandler(allFrameSets.left.basicAL)
 
     } 
     else if (basicAttack && idle == true && (lastpressed == "right") ) {
@@ -137,7 +137,7 @@ const basicAttacking = () => {
         lastpressed = "right"
 
         idle = false
-        player = new Player(allFrameSets.right.basicAR)
+        player = new FrameHandler(allFrameSets.right.basicAR)
     }
 
     
@@ -149,7 +149,7 @@ const specialAttacking = () => {
         lastpressed = "left"
         console.log(idle)
         idle = false
-        player = new Player(allFrameSets.left.specialAL)
+        player = new FrameHandler(allFrameSets.left.specialAL)
         then = Date.now()
         
     }
@@ -158,7 +158,7 @@ const specialAttacking = () => {
         lastpressed = "right"
         idle = false
         then = Date.now()
-        player = new Player(allFrameSets.right.specialAR)
+        player = new FrameHandler(allFrameSets.right.specialAR)
     }
 
 }

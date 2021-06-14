@@ -1,9 +1,5 @@
-import { frames } from "./frames"
 
-
-
-
-class Player { 
+class FrameHandler { 
     constructor(frameSet, mode = "loop") {
             this.count = 0
             this.delay = 1
@@ -66,4 +62,4 @@ class Player {
 
 
 
-export default Player;
+export default FrameHandler;
