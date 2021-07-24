@@ -54,3 +54,5 @@ export const frames = [
     new PlayerFrame(-33, 545, 100, 70, 140, 100, 50, 25), new PlayerFrame(60, 530, 76, 100, 100, 120, 10, 25),  new PlayerFrame(140, 550, 100, 70, 140, 100, 10, 18), new PlayerFrame(240, 547, 100, 70, 140, 100, 10, 18), new PlayerFrame(-25, 630, 100, 70, 140, 100, 20, 18), new PlayerFrame(76, 637, 100, 70, 140, 100, 40, 18),  //34 special attack right
     new PlayerFrame(220, 633, 100, 70, 140, 100, 10, 25), new PlayerFrame(-9, 720, 100, 70, 140, 100, 10, 18), new PlayerFrame(90, 720, 100, 70, 140, 100, 10, 18), new PlayerFrame(170, 720, 100, 70, 140, 100, 45, 18), new PlayerFrame(270, 720, 100, 70, 140, 100, 60, 18), new PlayerFrame(20, 805, 100, 70, 140, 100, 40, 18)  //40 special attack left
 ]
+
+export default PlayerFrame

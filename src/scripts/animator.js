@@ -22,8 +22,8 @@ const allFrameSets = {
 const canvas = document.getElementById("game-canvas");
 const ctx = canvas.getContext("2d");
 
-let x = 50;
-let y = canvas.height - 100;
+let playerX = 50;
+let playerY = canvas.height - 100;
 let velocity_x = 0;
 let velocity_y = 0;
 
@@ -82,7 +82,7 @@ const jumping = () => {
         // uppressed = false
         player = lastpressed === "left" ? new FrameHandler(allFrameSets.left.jumpLeft) : new FrameHandler(allFrameSets.right.jumpRight)
 
-        if (y <= canvas.height - 100) {
+        if (playerY <= canvas.height - 100) {
             setTimeout(() => {
                idle = true
             player = lastpressed === "left" ? new FrameHandler(allFrameSets.left.idleLeft) : new FrameHandler(allFrameSets.right.idleRight)
@@ -127,7 +127,7 @@ const basicAttacking = () => {
     if (basicAttack && idle == true && lastpressed == "left") {
         // basicAttack = false
         lastpressed = "left"
-        console.log(idle)
+        
         idle = false
         player = new FrameHandler(allFrameSets.left.basicAL)
 
@@ -145,19 +145,15 @@ const basicAttacking = () => {
 
 const specialAttacking = () => {
     if (specialAttack && idle == true && lastpressed == "left") {
-         
         lastpressed = "left"
-        console.log(idle)
-        idle = false
-        player = new FrameHandler(allFrameSets.left.specialAL)
-        then = Date.now()
         
+        player = new FrameHandler(allFrameSets.left.specialAL)
+        idle = false
     }
     else if (specialAttack && idle == true && (lastpressed == "right")) {
         // basicAttack = false
         lastpressed = "right"
         idle = false
-        then = Date.now()
         player = new FrameHandler(allFrameSets.right.specialAR)
     }
 
@@ -180,9 +176,6 @@ export const draw = () => {
 
     specialAttacking()
 
-   
-    
-    
  
     console.log(player.frameValue)
     // drawing the player 
@@ -190,9 +183,10 @@ export const draw = () => {
     let backgroundImg = new Image;
     backgroundImg.src = "src/images/Background.png"
     let playerImg = new Image();
-
+    let enemyImg = new Image();
     playerImg.src = "src/images/tanjiro_sprite.png";
         // picks the correct number of frames
+    enemyImg.src = "src/images/enemy_sprites.png";
     let frame = frames[player.frameValue]
         // starts animation
     player.updateAnimation()
@@ -202,32 +196,30 @@ export const draw = () => {
         // player.updateAnimation
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height)
-        ctx.drawImage(playerImg, frame.x, frame.y, frame.width, frame.height, x - frame.offsetX, y - frame.offsetY, frame.canvasWidth, frame.canvasHeight)
-        
-
-        
-        
+        ctx.drawImage(playerImg, frame.x, frame.y, frame.width, frame.height, playerX - frame.offsetX, playerY - frame.offsetY, frame.canvasWidth, frame.canvasHeight)
+        // ctx.drawImage(enemyImg, 15, 15, 60, 70, x, y,80, 100)
+        // ctx.drawImage(enemyImg, 80, 100)
     }
 
         // gravity
-        y += 25 
+        playerY += 25 
         
         // collision control
-    if (x + 2 > canvas.width - 80) (x = canvas.width - 80)
+    if (playerX + 30 > canvas.width - 80) (playerX = canvas.width - 100)
 
-    if (specialAttack && lastpressed === "right") ( x += 50)
-    if (specialAttack && lastpressed === "left") ( x -= 50)
+    if (specialAttack && basicAttack === false && lastpressed === "right" ) ( playerX += 50)
+    if (specialAttack && basicAttack === false && lastpressed === "left") ( playerX -= 50)
 
-    if (x - 2 < 0) (x = 0)
+    if (playerX - 2 < 0) (playerX = 0)
 
-    if (y + 8 > canvas.height - 120 ) y = canvas.height - 120
+    if (playerY + 8 > canvas.height - 120 ) playerY = canvas.height - 120
          // collision control
 
         //  moving right and left
-    if (leftpressed || rightpressed) x += velocity_x
+    if (leftpressed || rightpressed) playerX += velocity_x
     // if (rightpressed && leftpressed === false) x += velocity_x
-    if (uppressed && y === canvas.height-120) {
-        y -=80
+    if (uppressed && playerY === canvas.height-120) {
+        playerY -=80
 
     }
     let time;

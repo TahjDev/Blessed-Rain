@@ -6,8 +6,6 @@ const ctx = canvas.getContext("2d");
 let backgroundImg = new Image;
 backgroundImg.src = "src/images/Background.png"
 backgroundImg.onload = () => {
-   
-
 
 }
 
